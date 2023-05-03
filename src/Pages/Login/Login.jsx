@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import axios from 'axios'
 
 function Login() {
 
@@ -11,9 +12,27 @@ function Login() {
             setData({...data, password: e.target.value})
     }
 
-    function submitHandler(e) {
+    async function submitHandler(e) {
         e.preventDefault()
+        await loginUser()
         console.log(data)
+    }
+
+    async function loginUser() {
+        axios.defaults.headers.post["Access-Control-Allow-Origin"] = true
+        try {
+            const response = await axios.post(
+                'http://localhost:5000/users/login',
+                { 
+                    correo: data.email, 
+                    password: data.password 
+                }, 
+            )
+            console.log(response)
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
