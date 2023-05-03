@@ -1,31 +1,35 @@
 import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
-function Login() {
+function ResetPw () {
 
     const [data, setData] = useState({})
+    const { token } = useParams()
 
     function inputHandler(e) {
-        e.target.id === "email" ? 
-            setData({...data, email: e.target.value}) :
+        if (e.target.id === "password") {
             setData({...data, password: e.target.value})
+        } 
+        else {
+            setData({...data, confirmPw: e.target.value})
+        }
     }
 
     async function submitHandler(e) {
         e.preventDefault()
-        await loginUser()
+        await resetPw()
     }
 
-    async function loginUser() {
+    async function resetPw() {
         axios.defaults.headers.post["Access-Control-Allow-Origin"] = true
         try {
             const response = await axios.post(
-                'http://localhost:5000/users/login',
+                `http://localhost:5000/users/reset-password/${token}`,
                 { 
-                    correo: data.email, 
-                    password: data.password 
-                }, 
+                    newPassword: data.password,
+                }
             )
             console.log(response)
 
@@ -36,34 +40,32 @@ function Login() {
 
     return (
         <div>
-            <h1>Iniciar Sesión</h1>
+            <h1>Restablecer Contraseña</h1>
             <Form onSubmit={submitHandler}>
-                <Form.Group className="mb-3" controlId="email">
-                    <Form.Label>Correo Electrónico</Form.Label>
+                <Form.Group className="mb-3" controlId="password">
                     <Form.Control 
-                        type="email" 
-                        placeholder="Ingresa tu Correo" 
+                        type="password" 
+                        placeholder="Ingresa tu nueva Contraseña" 
                         onChange={inputHandler}
-                        value={data.email}
+                        value={data.password}
                     />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="password">
-                    <Form.Label>Contraseña</Form.Label>
+                <Form.Group className="mb-3" controlId="confirmPassword">
                     <Form.Control 
                         type="password" 
-                        placeholder="Contraseña" 
+                        placeholder="Confirma tu nueva Contraseña" 
                         onChange={inputHandler}
-                        value={data.pw}
+                        value={data.confirmPw}
                     />
                 </Form.Group>
 
                 <Button variant="primary" type="submit">
-                    Ingresar
+                    Confirmar
                 </Button>
             </Form>
         </div>
     )
 }
 
-export default Login
+export default ResetPw

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Alert, Button, Form } from 'react-bootstrap';
+import React, { useState } from 'react'
+import { Alert, Button, Form } from 'react-bootstrap'
+import axios from 'axios'
 
 function PwRecovery () {
 
@@ -10,9 +11,26 @@ function PwRecovery () {
         setEmail(e.target.value)
     }
 
-    function submitHandler(e) {
+    async function submitHandler(e) {
         e.preventDefault()
         setIsSubmitted(true)
+        await sendEmail()
+    }
+
+    async function sendEmail() {
+        axios.defaults.headers.post["Access-Control-Allow-Origin"] = true
+        try {
+            const response = await axios.post(
+                'http://localhost:5000/users/password-recovery',
+                { 
+                    email: email
+                }, 
+            )
+            console.log(response)
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -35,7 +53,7 @@ function PwRecovery () {
                 </Button>
 
                 {isSubmitted && <Alert variant="info" className="mt-3">
-                    Una nueva contraseña fue enviada a tu correo!
+                    Haz click en la URL que te enviamos a tu correo electrónico para restablecer tu contraseña.
                 </Alert>}
             </Form>
         </div>
