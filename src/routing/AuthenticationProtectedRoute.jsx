@@ -1,23 +1,22 @@
-import { Outlet } from 'react-router-dom';
-import useUser from '../../hooks/useUser';
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const AnonymousProtectedRoute = () => {
-    const [token] = useUser();
-    const navigate = useNavigate();
+function AuthenticationProtectedRoute() {
+    const token = localStorage.getItem('token')
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (!token) {
-            navigate('/login/');
+            navigate('/')
         }
-    }, [navigate, token]);
+    }, [navigate, token])
 
     if (!token) {
-        return <></>;
+        return <></>
     }
 
     // returns child route elements
-    return <Outlet />;
+    return <Outlet />
 };
-export default AnonymousProtectedRoute;
+export default AuthenticationProtectedRoute;

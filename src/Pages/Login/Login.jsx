@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 function Login() {
 
     const [data, setData] = useState({})
+    const navigate = useNavigate()
 
     function inputHandler(e) {
         e.target.id === "email" ? 
@@ -27,13 +29,13 @@ function Login() {
                     password: data.password 
                 }, 
             )
-            console.log(response)
-
+            localStorage.setItem('token', response.data.token)
+            navigate('/profile')
         } catch (error) {
             console.log(error)
         }
     }
-
+    
     return (
         <div>
             <h1>Iniciar Sesión</h1>

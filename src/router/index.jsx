@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import Page404 from '../Pages/Page404'
 
 export default function Router(props) {
+
     // Se reciben las rutas como propiedades, se mapean
     // y se renderizan en el componente Routes
     
