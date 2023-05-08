@@ -11,7 +11,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.11.0",
+    "react-router-dom": "^6.11.1",
     "react-scripts": "5.0.1",
     "typed": "^10.0.0-beta.2",
     "typed.js": "^2.0.16",

@@ -15,6 +15,7 @@ export default function Router(props) {
                     key={element.path}
                     path={element.path}
                     element={element.component}
+                    onEnter={element.onEnter}
                 ></Route>
             );
         }

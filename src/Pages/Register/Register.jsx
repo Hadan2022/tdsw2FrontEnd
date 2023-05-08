@@ -1,21 +1,16 @@
 import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 function Register() {
 
-    const [data, setData] = useState({email: "", password: "", confirmPw: ""})
+    const [data, setData] = useState({email: "", username: "", password: "", confirmPw: ""})
+    const navigate = useNavigate()
 
     function inputHandler(e) {
-        if( e.target.id === "email" ) {
-            setData({...data, email: e.target.value})
-        } 
-        else if (e.target.id === "password") {
-            setData({...data, password: e.target.value})
-        } 
-        else {
-            setData({...data, confirmPw: e.target.value})
-        }
+        const { id, value } = e.target
+        setData(prevData => ({ ...prevData, [id]: value}))
     }
 
     async function submitHandler(e) {
@@ -31,11 +26,13 @@ function Register() {
                 'http://localhost:5000/users/register',
                 { 
                     correo: data.email, 
+                    username: data.username,
                     password: data.password 
                 }, 
             )
-            console.log(response)
-
+            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('username', response.data.username)
+            navigate(`../user/${response.data.username}`)
         } catch (error) {
             console.log(error)
         }
@@ -44,7 +41,19 @@ function Register() {
     return (
         <div>
             <h1>Registro</h1>
+
             <Form onSubmit={submitHandler}>
+                <Form.Group className="mb-3" controlId="username">
+                    <Form.Label>Nombre de Usuario</Form.Label>
+                    <Form.Control 
+                        type="username" 
+                        placeholder="Ingresa tu Nombre de Usuario" 
+                        onChange={inputHandler}
+                        value={data.username}
+                        required
+                    />
+                </Form.Group>
+
                 <Form.Group className="mb-3" controlId="email">
                     <Form.Label>Correo Electrónico</Form.Label>
                     <Form.Control 

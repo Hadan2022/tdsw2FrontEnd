@@ -7,44 +7,57 @@ import axios from 'axios'
 function UserProfile () {
     const navigate = useNavigate()
     const [profileData, setProfileData] = useState({})
-    const { userId } = useParams()
+    const { username } = useParams()
+    const [responseStatus, setResponseStatus] = useState(0)
 
     useEffect(() => {
         async function fetchUserProfile() {
             try {
-                const response = await axios.get(
-                    `http://localhost:5000/users/${userId}`,
+                const response = await axios.post(
+                    `http://localhost:5000/users/getUserData`,
                     { 
-                        headers: {
-                            Authorization: `Bearer ${localStorage.getItem('token')}`
-                        }
+                        username: username
                     }
                 )
                 console.log(response)
-                setProfileData(response.data)
+                setProfileData(response.data)                
+                setResponseStatus(response.status)
             } catch (error) {
                 console.log("Error fetching user profile: ", error)
+                setResponseStatus(404)
             }
         }
-
         fetchUserProfile()
-    }, [userId])
+    }, [username])
 
     function handleLogout() {
         localStorage.removeItem('token')
         navigate('/logout')
     }
-    return (
-        <div>
-            <h1>Perfil de Usuario</h1>
-            <button onClick={handleLogout}>Logout</button>
-            <br />
-            <button onClick={() => {navigate('/')}}>Feed</button>
-            <br />
-            <p>Email: {profileData.email}</p>
-            <p>Name: {profileData.name}</p>
-        </div>
-    )
+    return (        
+        <>
+            {
+                responseStatus === 0 ? 
+                    <h4>Cargando...</h4> :
+                responseStatus === 200 ? 
+                    <div>
+                        <h1>Perfil de Usuario</h1>
+                        <button onClick={handleLogout}>Logout</button>
+                        <br />
+                        <button onClick={() => {navigate('/')}}>Feed</button>
+                        <br />
+                        <button onClick={() => {navigate('/edit-profile')}}>Editar Perfil</button>
+                        <br />
+                        <br />
+                        <p>Email: {profileData.email}</p>
+                        <p>Username: {profileData.username}</p>
+                    </div>
+                :
+                    <h1>NOT FOUND</h1>
+                
+            }
+        </>
+        )
 }
 
 export default UserProfile

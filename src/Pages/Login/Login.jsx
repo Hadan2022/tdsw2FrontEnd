@@ -30,7 +30,8 @@ function Login() {
                 }, 
             )
             localStorage.setItem('token', response.data.token)
-            navigate(`user/${data.email}`)
+            localStorage.setItem('username', response.data.username)
+            navigate(`../user/${response.data.username}`)
         } catch (error) {
             console.log(error)
         }

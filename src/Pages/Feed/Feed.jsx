@@ -1,26 +1,14 @@
 import React from "react"
 import { Button } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
-import axios from 'axios'
 
 function Feed () {
     const navigate = useNavigate()
 
-    async function navigateToProfile() {
-        try {
-            const response = await axios.get(
-                `http://localhost:5000/users/`,
-                { 
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                }
-            )
-            console.log(response)
-        } catch (error) {
-            console.log("Error fetching user profile: ", error)
-        }    
+    function navigateToProfile() {
+        navigate(`/user/${localStorage.getItem("username")}`)
     }
+
     return (
         <>
             <h1>Hola</h1>

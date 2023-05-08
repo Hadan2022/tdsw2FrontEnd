@@ -5,6 +5,7 @@ import RecoveryRequest from './Pages/PwRecovery/RecoveryRequest'
 import ResetPw from './Pages/PwRecovery/ResetPw'
 import Register from './Pages/Register/Register'
 import UserProfile from './Pages/UserProfile/UserProfile'
+import EditUserProfile from './Pages/EditUserProfile/EditUserProfile'
 import Router from './router/index'
 import AnonymousProtectedRoute from './routing/AnonymousProtectedRoute'
 import AuthenticationProtectedRoute from './routing/AuthenticationProtectedRoute'
@@ -24,7 +25,8 @@ const routes = [
         component: <Feed />,
         protection: (
             <AuthenticationProtectedRoute></AuthenticationProtectedRoute>
-        )
+        ),
+        onEnter: () => {localStorage.removeItem('token')}
     },
     { 
         path: '/register', 
@@ -42,8 +44,12 @@ const routes = [
         protection: <AnonymousProtectedRoute></AnonymousProtectedRoute>
     },
     {
-        path: '/user/:id',
+        path: '/user/:username',
         component: <UserProfile />,
+    },
+    {
+        path: '/edit-profile',
+        component: <EditUserProfile />,
     }
 ]
 
