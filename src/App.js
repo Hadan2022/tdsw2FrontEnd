@@ -41,13 +41,10 @@ const routes = [
         component: <ResetPw />,
         protection: <AnonymousProtectedRoute></AnonymousProtectedRoute>
     },
-    { 
-        path: '/profile',
+    {
+        path: '/user/:id',
         component: <UserProfile />,
-        protection: (
-            <AuthenticationProtectedRoute></AuthenticationProtectedRoute>
-        )
-    },
+    }
 ]
 
 function App() {

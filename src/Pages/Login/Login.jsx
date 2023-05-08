@@ -30,7 +30,7 @@ function Login() {
                 }, 
             )
             localStorage.setItem('token', response.data.token)
-            navigate('/profile')
+            navigate(`user/${data.email}`)
         } catch (error) {
             console.log(error)
         }
