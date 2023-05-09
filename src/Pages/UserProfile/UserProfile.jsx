@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState} from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import UploadAudioFile from '../../components/UploadAudioFile'
 
 import axios from 'axios'
 
@@ -8,7 +9,7 @@ function UserProfile () {
     const navigate = useNavigate()
 
     const [profileData, setProfileData] = useState({})
-    const [uploadVisbility, setUploadVisibility] = useState(false)
+    const [uploadVisibility, setUploadVisibility] = useState(false)
     const [buttonMessage, setButtonMessage] = useState("Subir una Pista")
 
     const { username } = useParams()
@@ -34,7 +35,7 @@ function UserProfile () {
         fetchUserProfile()
     }, [username])
 
-    return (        
+    return (
         <>
             {
                 responseStatus === 0 ? 
@@ -49,19 +50,14 @@ function UserProfile () {
                                 <br />
                                 <br />
                                 <button onClick={() => {
-                                        setUploadVisibility(!uploadVisbility)
+                                        setUploadVisibility(!uploadVisibility)
                                         setButtonMessage(buttonMessage === "Subir una Pista" ? "Cancelar" : "Subir una Pista")
                                     }
                                 }>{buttonMessage}</button>
                                 <br />
                                 {
-                                    uploadVisbility && 
-                                    <>
-                                        <input type="file" />
-                                        <br />
-                                        <button>Subir</button>
-                                        <br />
-                                    </>
+                                    uploadVisibility && 
+                                    <UploadAudioFile />
                                 }
                             </>
                         }
