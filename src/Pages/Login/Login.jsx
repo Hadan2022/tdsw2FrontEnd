@@ -5,13 +5,12 @@ import axios from 'axios'
 
 function Login() {
 
-    const [data, setData] = useState({})
+    const [data, setData] = useState({email: "", password: ""})
     const navigate = useNavigate()
 
     function inputHandler(e) {
-        e.target.id === "email" ? 
-            setData({...data, email: e.target.value}) :
-            setData({...data, password: e.target.value})
+        const { id, value } = e.target
+        setData(prevData => ({ ...prevData, [id]: value}))
     }
 
     async function submitHandler(e) {

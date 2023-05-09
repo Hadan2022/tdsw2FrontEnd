@@ -6,7 +6,11 @@ import axios from 'axios'
 
 function UserProfile () {
     const navigate = useNavigate()
+
     const [profileData, setProfileData] = useState({})
+    const [uploadVisbility, setUploadVisibility] = useState(false)
+    const [buttonMessage, setButtonMessage] = useState("Subir una Pista")
+
     const { username } = useParams()
     const [responseStatus, setResponseStatus] = useState(0)
 
@@ -30,10 +34,6 @@ function UserProfile () {
         fetchUserProfile()
     }, [username])
 
-    function handleLogout() {
-        localStorage.removeItem('token')
-        navigate('/logout')
-    }
     return (        
         <>
             {
@@ -42,15 +42,37 @@ function UserProfile () {
                 responseStatus === 200 ? 
                     <div>
                         <h1>Perfil de Usuario</h1>
-                        <button onClick={handleLogout}>Logout</button>
+                        {
+                            localStorage.getItem('token') && localStorage.getItem('username') === profileData.username &&
+                            <>
+                                <button onClick={() => {navigate('/edit-profile')}}>Editar Perfil</button>
+                                <br />
+                                <br />
+                                <button onClick={() => {
+                                        setUploadVisibility(!uploadVisbility)
+                                        setButtonMessage(buttonMessage === "Subir una Pista" ? "Cancelar" : "Subir una Pista")
+                                    }
+                                }>{buttonMessage}</button>
+                                <br />
+                                {
+                                    uploadVisbility && 
+                                    <>
+                                        <input type="file" />
+                                        <br />
+                                        <button>Subir</button>
+                                        <br />
+                                    </>
+                                }
+                            </>
+                        }
                         <br />
                         <button onClick={() => {navigate('/')}}>Feed</button>
-                        <br />
-                        <button onClick={() => {navigate('/edit-profile')}}>Editar Perfil</button>
                         <br />
                         <br />
                         <p>Email: {profileData.email}</p>
                         <p>Username: {profileData.username}</p>
+                        <p>Ciudad: {profileData.ciudad}</p>
+                        <p>Bio: {profileData.biografia}</p>
                     </div>
                 :
                     <h1>NOT FOUND</h1>

@@ -32,7 +32,7 @@ function Register() {
             )
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('username', response.data.username)
-            navigate(`../user/${response.data.username}`)
+            navigate(`/complete-profile`)
         } catch (error) {
             console.log(error)
         }
@@ -85,16 +85,24 @@ function Register() {
                         value={data.confirmPw}
                         required
                     />
-                    {data.password !== data.confirmPw && 
-                        <p className="text-danger">
-                            Las contraseñas no coinciden
-                        </p>
+                    {
+                        data.password !== data.confirmPw && 
+                            <p className="text-danger">
+                                Las contraseñas no coinciden
+                            </p>
                     }
                 </Form.Group>
-
-                <Button variant="primary" type="submit">
-                    Registrarse
-                </Button>
+                {
+                    data.password !== data.confirmPw ?
+                        <Button variant="primary" type="submit" disabled>
+                            Registrarse
+                        </Button>
+                    :
+                        <Button variant="primary" type="submit">
+                            Registrarse
+                        </Button>
+                }
+                
             </Form>
         </div>
     )

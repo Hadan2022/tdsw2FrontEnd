@@ -9,6 +9,7 @@ import EditUserProfile from './Pages/EditUserProfile/EditUserProfile'
 import Router from './router/index'
 import AnonymousProtectedRoute from './routing/AnonymousProtectedRoute'
 import AuthenticationProtectedRoute from './routing/AuthenticationProtectedRoute'
+import CompleteProfile from './components/CompleteProfile'
 
 const routes = [
     { 
@@ -50,11 +51,14 @@ const routes = [
     {
         path: '/edit-profile',
         component: <EditUserProfile />,
+    },
+    {
+        path: '/complete-profile',
+        component: <CompleteProfile />
     }
 ]
 
 function App() {
-    
     return (
         <Router routes={routes} />  
     );
