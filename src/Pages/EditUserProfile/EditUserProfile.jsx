@@ -138,7 +138,7 @@ function EditUserProfile () {
                         required
                     />
                     {
-                        updatedData.password !== updatedData.confirmPw ? 
+                        updatedPw.password !== updatedPw.confirmPw ? 
                         (
                             <>
                                 <p className="text-danger">

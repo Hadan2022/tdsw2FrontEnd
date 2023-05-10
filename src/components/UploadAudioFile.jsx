@@ -5,8 +5,8 @@ import axios from 'axios'
 
 function UploadAudioFile () {
 
-    const [fileData, setFileData] = useState({titulo: ""})
-    const [file, setFile] = useState(null)
+    const [fileData, setFileData] = useState({titulo: "", tags: ""})
+    const [file, setFile] = useState("")
 
     function inputHandler(e) {
         const { id, value } = e.target
@@ -15,6 +15,7 @@ function UploadAudioFile () {
 
     function fileHandler(e) {
         setFile(e.target.files[0])
+        console.log(file.name)
     }
 
     async function submitHandler(e) {
@@ -23,14 +24,19 @@ function UploadAudioFile () {
     }
 
     async function uploadFile() {
-        axios.defaults.headers.post["Access-Control-Allow-Origin"] = true
+        const formData = new FormData()
+        const tagsArray = fileData.tags.split(',').map(tag => tag.trim())
+        console.log(tagsArray)
+
+        formData.append('audioFile', file)
+        formData.append('titulo', fileData.titulo)
+        formData.append('token', localStorage.getItem('token'))
+        formData.append('tags', JSON.stringify(tagsArray))
         try {
             const response = await axios.post(
-                'http://localhost:5000/api/upload',
-                { 
-                    titulo: fileData.titulo,
-                    file: file 
-                }, 
+                `http://localhost:5000/audio/upload/${fileData.titulo}`,
+                formData,
+                { headers: { 'x-access-token': localStorage.getItem('token') } }
             )
             console.log(response)
         } catch (error) {
@@ -56,6 +62,15 @@ function UploadAudioFile () {
                         type="text" 
                         onChange={inputHandler}
                         value={fileData.titulo}
+                    />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="tags">
+                    <Form.Label>Etiquetas</Form.Label>
+                    <Form.Control 
+                        type="text" 
+                        onChange={inputHandler}
+                        value={fileData.tags}
+                        placeholder="Ej: rock, pop, jazz, etc. Separadas por comas"
                     />
                 </Form.Group>
                 <Button variant="primary" type="submit">Subir</Button>
