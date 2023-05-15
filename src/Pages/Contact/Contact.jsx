@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
+import axios from "axios"
+
 
 const ContactForm = () => {
   const [name, setName] = useState('');
@@ -19,7 +21,7 @@ const ContactForm = () => {
     setMessage(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // Aquí puedes realizar alguna acción con los datos del formulario, como enviarlos a un servidor o realizar una acción en el cliente.
     console.log('Nombre:', name);
@@ -29,7 +31,26 @@ const ContactForm = () => {
     setName('');
     setEmail('');
     setMessage('');
+    await sendData();
   };
+
+  async function sendData() {
+    axios.defaults.headers.post["Access-Control-Allow-Origin"] = true
+    try {
+        const response = await axios.post(
+            `http://localhost:5000/users/contact`,
+            { 
+                name: name,
+                mail: email,
+                message: message
+            }
+        )
+        console.log(response)
+
+    } catch (error) {   
+        console.log(error)
+    }
+}
 
   return (
     <form onSubmit={handleSubmit}>
