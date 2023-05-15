@@ -18,6 +18,8 @@ function Feed () {
             <br />
             <Button onClick={ () => navigate("/password-recovery") }>Ir a Recuperación de Contraseña</Button>
             <br />
+            <Button onClick={ () => navigate("/contact-Form") }>Contacto</Button>
+            <br />
             {localStorage.getItem('token') && <Button onClick={navigateToProfile}>Ir a perfil</Button>}
         </>
     )

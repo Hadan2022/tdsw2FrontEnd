@@ -10,6 +10,8 @@ import Router from './router/index'
 import AnonymousProtectedRoute from './routing/AnonymousProtectedRoute'
 import AuthenticationProtectedRoute from './routing/AuthenticationProtectedRoute'
 import CompleteProfile from './components/CompleteProfile'
+import Contact from './Pages/Contact/Contact';
+
 
 const routes = [
     { 
@@ -55,6 +57,11 @@ const routes = [
     {
         path: '/complete-profile',
         component: <CompleteProfile />
+    },
+
+    {
+        path: '/contact-Form',
+        component: <Contact/>
     }
 ]
 
